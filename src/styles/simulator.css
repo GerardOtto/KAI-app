@@ -1,0 +1,103 @@
+/* Vista general */
+.simulator-view {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+  
+  /* Título */
+  .simulator-view h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  /* Contenedor centrado y con scroll horizontal */
+  .simulator-table-wrapper {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow-x: auto;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Tabla base */
+  .simulator-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    min-width: 1200px;
+  }
+  
+  /* Header */
+  .simulator-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--panel);
+    z-index: 2;
+    padding: 0.75rem 0.5rem;
+    border-bottom: 2px solid var(--border);
+    text-align: center;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  /* Filas */
+  .simulator-table tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .simulator-table tbody tr:hover {
+    background: #f9fafb;
+  }
+  
+  /* Celdas */
+  .simulator-table td {
+    padding: 0.4rem 0.5rem;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  /* Nombre universidad fijo */
+  .sticky-name {
+    position: sticky;
+    left: 0;
+    background: var(--panel);
+    z-index: 1;
+    text-align: left;
+    font-weight: 500;
+    min-width: 260px;
+    border-right: 1px solid var(--border);
+  }
+  
+  /* Inputs de métricas */
+  .metric-input {
+    width: 72px;
+    padding: 0.25rem 0.3rem;
+    font-size: 0.8rem;
+    text-align: right;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+  }
+  
+  .metric-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  
+  /* Puntaje total */
+  .score-cell {
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  
+  /* Ranking */
+  .simulator-table td:first-child {
+    font-weight: 500;
+    color: var(--muted);
+  }
+  

@@ -1,0 +1,21 @@
+export const PESOS = {
+    normalized_impact: 0.13,
+    excel_lider: 0.08,
+    output: 0.08,
+    lider: 0.05,
+    not_own_journals_output: 0.03,
+    own_journals: 0.03,
+    excel: 0.02,
+    q1: 0.02,
+    colab: 0.02,
+    open_access: 0.02,
+    stp: 0.02,
+    ik: 0.10,
+    patents: 0.10,
+    tech_impact: 0.10,
+    AM: 0.03,
+    sdg: 0.05,
+    female_stp: 0.03,
+    overton: 0.03,
+  };
+  

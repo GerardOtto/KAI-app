@@ -1,0 +1,38 @@
+.metric-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .metric-label {
+    cursor: help;
+    border-bottom: 1px dotted var(--muted);
+  }
+  
+  .metric-tooltip {
+    position: absolute;
+    z-index: 100;
+    top: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+  
+    width: 320px;
+    padding: 0.6rem 0.7rem;
+  
+    background: #1e1e1e;
+    color: #f5f5f5;
+    font-size: 0.72rem;
+    line-height: 1.35;
+  
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    white-space: normal;
+  }
+  
+  .metric-tooltip-wrapper:hover .metric-tooltip {
+    opacity: 1;
+  }
+  

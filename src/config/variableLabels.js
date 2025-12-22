@@ -1,0 +1,22 @@
+export const VARIABLE_LABELS = {
+    excel_lider: "Excelencia con Liderazgo",
+    normalized_impact: "Impacto Normalizado",
+    normalized_impact_leadership: "Liderazgo en Impacto Normalizado",
+    output: "Producción Científica",
+    stp: "Talento Científico",
+    lider: "Liderazgo Científico",
+    colab: "Colaboración Internacional",
+    q1: "Publicaciones de Alta Calidad (Q1)",
+    excel: "Excelencia",
+    ik: "Conocimiento Innovador",
+    tech_impact: "Impacto Tecnológico",
+    patents: "Patentes",
+    open_access: "Acceso Abierto",
+    not_own_journals_output: "Producción en Revistas Externas",
+    own_journals: "Revistas Propias",
+    overton: "Impacto en Políticas Públicas",
+    sdg: "Objetivos de Desarrollo Sostenible",
+    female_stp: "Talento Científico Femenino",
+    AM: "Altmetrics",
+  };
+  
