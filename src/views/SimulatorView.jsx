@@ -71,8 +71,7 @@ export default function SimulatorView({ data }) {
 
   return (
     <div className="simulator-view">
-      <h2>Simulador de Puntaje Institucional Scimago</h2>
-
+      <center><p style={{ fontSize: '30px', fontWeight: 'bold' }}>Simulador de Puntaje Institucional Scimago</p></center>
       <div className="simulator-table-wrapper">
         <table className="simulator-table">
           <thead>

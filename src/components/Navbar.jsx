@@ -32,7 +32,7 @@ export default function Navbar({ activeView, onChange }) {
             className="nav-btn"
             onClick={() => onChange("vista3")}
           >
-            Vista 3
+            Planificador
           </button>
         </li>
 
