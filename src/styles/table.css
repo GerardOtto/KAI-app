@@ -30,3 +30,32 @@
     font-weight: 500;
   }
   
+  .total-row {
+  font-weight: 600;
+  background: #f9fafb;
+  border-top: 2px solid var(--border);
+}
+
+.score-cell {
+  color: var(--accent);
+}
+.cell-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.diff {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+.diff-positive {
+  color: #059669; /* verde */
+}
+
+.diff-negative {
+  color: #dc2626; /* rojo */
+}
