@@ -43,6 +43,7 @@
     white-space: nowrap;
   }
   
+  
   /* Filas */
   .simulator-table tbody tr {
     border-bottom: 1px solid var(--border);
@@ -99,5 +100,19 @@
   .simulator-table td:first-child {
     font-weight: 500;
     color: var(--muted);
+  }
+  .simulator-table-wrapper {
+    overflow-x: auto;
+    position: relative;
+  }
+  .sticky-score {
+    position: sticky;
+    right: 0;
+    background: #f9fafb;
+    z-index: 3;
+    border-left: 2px solid var(--border);
+    font-weight: 600;
+    white-space: nowrap;
+    
   }
   

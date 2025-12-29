@@ -30,9 +30,9 @@ export default function Navbar({ activeView, onChange }) {
         <li>
           <button
             className="nav-btn"
-            onClick={() => onChange("vista3")}
+            onClick={() => onChange("trends")}
           >
-            Planificador
+            Graficador
           </button>
         </li>
 
@@ -41,7 +41,7 @@ export default function Navbar({ activeView, onChange }) {
             className="nav-btn"
             onClick={() => onChange("vista4")}
           >
-            Vista 4
+            papeador
           </button>
         </li>
 

@@ -17,5 +17,6 @@ export const PESOS = {
     sdg: 0.05,
     female_stp: 0.03,
     overton: 0.03,
+    total_score: 0.00,
   };
   

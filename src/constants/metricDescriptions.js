@@ -92,5 +92,9 @@ export const METRIC_DESCRIPTIONS = {
   Número de documentos citados en documentos de políticas públicas según Overton.
   Indicador dependiente del tamaño.
   `,
+
+    total_score: `
+    XD
+    `,
   };
   

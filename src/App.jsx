@@ -4,17 +4,39 @@ import { useUniversidades } from "./hooks/UseUniversidades";
 import UniversitySelector from "./components/UniversitySelector";
 import ComparisonTable from "./components/ComparisonTable";
 import SimulatorView from "./views/SimulatorView";
+import YearRangeSelector from "./components/YearRangeSelector";
+import TrendsView from "./views/TrendViews";
+
 import "./styles/tooltip.css";
 
 function App() {
   const universidades = useUniversidades();
   const [selected, setSelected] = useState([]);
   const [activeView, setActiveView] = useState("compare");
-
+  const [yearRange, setYearRange] = useState("2019-2023");
+  const YEAR_RANGES = [
+    "2014-2018",
+    "2015-2019",
+    "2016-2020",
+    "2017-2021",
+    "2018-2022",
+    "2019-2023",
+  ];
+  
+  const filteredUniversidades = useMemo(() => {
+    return universidades.filter(
+      (u) => u.years === yearRange
+    );
+  }, [universidades, yearRange]);
+  
   const selectedUniversidades = useMemo(
-    () => universidades.filter((u) => selected.includes(u.ID)),
-    [universidades, selected]
+    () =>
+      filteredUniversidades.filter((u) =>
+        selected.includes(u.ID)
+      ),
+    [filteredUniversidades, selected]
   );
+  
 
   const handleSelect = (e) => {
     const id = Number(e.target.value);
@@ -44,9 +66,16 @@ function App() {
 
             <main className="layout">
               <aside className="panel">
-                <h2>Universidades</h2>
+                <h2>Filtros</h2>
+
+                <YearRangeSelector
+                  value={yearRange}
+                  options={YEAR_RANGES}
+                  onChange={setYearRange}
+                />
+
                 <UniversitySelector
-                  universidades={universidades}
+                  universidades={filteredUniversidades}
                   selected={selected}
                   onChange={handleSelect}
                   onClear={clearSelection}
@@ -61,14 +90,22 @@ function App() {
         )}
 
         {activeView === "simulator" && (
-          <SimulatorView data={universidades} />
+          <SimulatorView
+            data={filteredUniversidades}
+            yearRange={yearRange}
+            onYearChange={setYearRange}
+            yearRanges={YEAR_RANGES}
+          />
         )}
-
-        {activeView !== "compare" && activeView !== "simulator" && (
-          <section className="placeholder">
-            <h2>{activeView}</h2>
-            <p>Vista en construcción.</p>
-          </section>
+        
+        {activeView === "trends" && (
+          <TrendsView
+            universidades={universidades}
+            selected={selected}
+            yearRange={yearRange}
+            onYearChange={setYearRange}
+            yearRanges={YEAR_RANGES}
+          />
         )}
       </div>
     </>

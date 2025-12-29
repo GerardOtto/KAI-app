@@ -1,0 +1,78 @@
+.trends-controls {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .trends-controls label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .trends-controls select {
+    min-width: 220px;
+    padding: 0.25rem;
+  }
+  
+  .chart-box {
+    border: 2px dashed #bbb;
+    padding: 1rem;
+    border-radius: 6px;
+    background: #fafafa;
+  }
+  
+  .trend-series {
+    margin-top: 1rem;
+  }
+  
+  .trend-series ul {
+    padding-left: 1.25rem;
+  }
+  
+  .muted {
+    color: #777;
+    font-style: italic;
+  }
+  
+  /* ===============================
+   Metric Selector
+   =============================== */
+
+.metric-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  
+  .metric-selector label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151; /* gris oscuro */
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  
+  .metric-selector select {
+    appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    color: #111827;
+    cursor: pointer;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  
+  .metric-selector select:hover {
+    border-color: #9ca3af;
+  }
+  
+  .metric-selector select:focus {
+    outline: none;
+    border-color: #2563eb; /* azul académico */
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+  }
+  

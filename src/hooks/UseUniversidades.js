@@ -10,26 +10,11 @@ export function useUniversidades() {
       header: true,
       dynamicTyping: true,
       complete: (result) => {
-        // 1. Filtrar filas válidas
         const rows = result.data.filter(
           (r) => r.ID && r.Institucion && r.years
         );
 
-        // 2. Agrupar por institución y quedarnos con el último período
-        const byInstitution = new Map();
-
-        rows.forEach((r) => {
-          const existing = byInstitution.get(r.ID);
-
-          if (
-            !existing ||
-            r.years > existing.years // comparación lexicográfica funciona aquí
-          ) {
-            byInstitution.set(r.ID, r);
-          }
-        });
-
-        setData(Array.from(byInstitution.values()));
+        setData(rows);
       },
     });
   }, []);
