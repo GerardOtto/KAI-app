@@ -1,38 +1,34 @@
 import { useMemo, useState } from "react";
 import UniversitySelector from "../components/UniversitySelector";
 import TrendsChart from "../components/TrendsChart";
+import { metricDescriptions } from "../constants/metricDescriptions";
 import "../styles/trends.css";
 
 export default function TrendViews({ universidades }) {
-    const [selectedUniversities, setSelectedUniversities] = useState([]);
-    const [metric, setMetric] = useState("output");
-    
-    const clearSelection = () => {
-      setSelectedUniversities([]);
-    };
-    
+  const [selectedUniversities, setSelectedUniversities] = useState([]);
+  const [metric, setMetric] = useState("output");
 
+  const clearSelection = () => {
+    setSelectedUniversities([]);
+  };
 
   /**
    * 🔹 Lista única de universidades (1 fila por ID)
-   *     → Esta es la que se pasa al UniversitySelector
    */
   const universidadesUnicas = useMemo(() => {
     const map = new Map();
-  
+
     universidades.forEach((u) => {
       if (!map.has(u.ID)) {
         map.set(u.ID, u);
       }
     });
-  
+
     return Array.from(map.values());
   }, [universidades]);
-  
 
   /**
    * 🔹 Handler de selección (checkbox)
-   *     UniversitySelector envía el evento
    */
   const handleUniversityChange = (e) => {
     const id = Number(e.target.value);
@@ -43,7 +39,7 @@ export default function TrendViews({ universidades }) {
         : [...prev, id]
     );
   };
-  
+
   const METRICS = [
     { key: "normalized_impact", label: "Impacto Normalizado*" },
     { key: "excel_lider", label: "Excelencia con Liderazgo" },
@@ -65,7 +61,10 @@ export default function TrendViews({ universidades }) {
     { key: "overton", label: "Políticas Públicas" },
     { key: "total_score", label: "Puntaje Total" },
   ];
-  
+
+  const metricDescription =
+    metricDescriptions?.[metric] ??
+    "No hay una descripción disponible para esta métrica.";
 
   return (
     <div className="trends-view">
@@ -74,34 +73,52 @@ export default function TrendViews({ universidades }) {
       <div className="trends-layout">
         {/* 🔹 Panel lateral */}
         <div className="panel">
-            <h2>Filtros</h2>
-            <UniversitySelector
+          <p
+            style={{
+              textTransform: "uppercase",
+              fontSize: "0.85rem",
+              fontWeight: "600",
+              marginBottom: "8px",
+            }}
+          >
+            Instituciones disponibles
+          </p>
+
+          <UniversitySelector
             universidades={universidadesUnicas}
             selected={selectedUniversities}
             onChange={handleUniversityChange}
             onClear={clearSelection}
-            />
-            <div className="metric-selector">
-                <label>Métrica</label>
-                <select value={metric} onChange={(e) => setMetric(e.target.value)}>
-                {METRICS.map((m) => (
-                    <option key={m.key} value={m.key}>
-                    {m.label}
-                    </option>
-                ))}
-                </select>
-            </div>
-        </div>
+          />
 
+          {/* 🔹 Selector de métrica */}
+          <div className="metric-selector">
+            <label>Métrica</label>
+            <select
+              value={metric}
+              onChange={(e) => setMetric(e.target.value)}
+            >
+              {METRICS.map((m) => (
+                <option key={m.key} value={m.key}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+
+            {/* 🔹 Descripción de la métrica */}
+            <div className="metric-description">
+              {metricDescription}
+            </div>
+          </div>
+        </div>
 
         {/* 🔹 Panel principal */}
         <section className="trends-main">
-        <TrendsChart
-        universidades={universidades}
-        selectedUniversities={selectedUniversities}
-        metric={metric}
-        />
-
+          <TrendsChart
+            universidades={universidades}
+            selectedUniversities={selectedUniversities}
+            metric={metric}
+          />
         </section>
       </div>
     </div>

@@ -1,5 +1,5 @@
-export const METRIC_DESCRIPTIONS = {
-    normalized_impact_leadership: `
+export const metricDescriptions = {
+    normalized_impact: `
   El Impacto Normalizado se calcula sobre la producción de liderazgo de la institución
   utilizando la metodología del Karolinska Institutet (Item oriented field normalized citation
   score average). Un valor de 1 representa el promedio mundial. Indicador independiente del tamaño.
@@ -47,7 +47,7 @@ export const METRIC_DESCRIPTIONS = {
   `,
   
     open_access: `
-  Porcentaje de documentos publicados en acceso abierto o indexados en Unpaywall.
+  Porcentaje de documentos publicados en Open Access Journals o indexados en Unpaywall.
   Indicador independiente del tamaño.
   `,
   
@@ -68,13 +68,13 @@ export const METRIC_DESCRIPTIONS = {
   
     patents: `
   Número de solicitudes de patentes (familias simples).
-  Indicador dependiente del tamaño.
+  Indicador dependiente del tamaño. Una familia de patentes simple es un grupo de documentos de patente (solicitudes o concesiones) que protegen la misma y única invención y comparten exactamente la misma fecha o combinación de fechas de prioridad.
   `,
   
     AM: `
   Indicador de impacto social compuesto por menciones en PlumX Metrics (70%)
   y lectores en Mendeley (30%).
-  Indicador dependiente del tamaño.
+  Indicador dependiente del tamaño. Incluye: Indexaciones en Scopus, "uso" de un artículo ( clicks, downloads, views, library holdings, video plays), bookmarks, code forks, favorites, readers, watchers, blog posts, comments, reviews, Wikipedia references, news media y número de veces que se compartió, dio "Me gusta" o se comentó un link en Facebook.
   `,
   
     sdg: `
@@ -94,7 +94,7 @@ export const METRIC_DESCRIPTIONS = {
   `,
 
     total_score: `
-    XD
+    Puntaje total de una institución calculado a través de metodología Scimago Institutions Rankings.
     `,
   };
   

@@ -75,4 +75,24 @@
     border-color: #2563eb; /* azul académico */
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
   }
-  
+  .metric-description {
+  margin-top: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #374151;
+  background-color: #f9fafb;
+  border-left: 3px solid #2563eb;
+  border-radius: 4px;
+}
+
+.metric-description {
+  margin-top: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #374151;
+  background-color: #f9fafb;
+  border-left: 3px solid #2563eb;
+  border-radius: 4px;
+}
