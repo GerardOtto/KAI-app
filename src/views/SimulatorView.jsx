@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { calculateTotalScore } from "../utils/calculateScore";
 import { formatNumber } from "../utils/formatNumber";
 import YearRangeSelector from "../components/YearRangeSelector";
+import RowsSelector from "../components/RowsSelector";
 import "../styles/simulator.css";
 
 const METRICS = [
@@ -31,7 +32,11 @@ export default function SimulatorView({
   onYearChange,
   yearRanges,
 }) {
+
+  const [selectedRowId, setSelectedRowId] = useState(null);
   const [editableData, setEditableData] = useState([]);
+  const [rowsToShow, setRowsToShow] = useState(10);
+
 
   // Inicializa copia editable cuando cambia el dataset (año incluido)
   useEffect(() => {
@@ -58,9 +63,19 @@ export default function SimulatorView({
       )
     );
   };
+  
+  const handleResetTable = () => {
+    setEditableData(
+      data.map((u) => ({
+        ...u,
+        _edited: {},
+      }))
+    );
+  };
+  
 
   const rankedUniversities = useMemo(() => {
-    return editableData
+    const ranked = editableData
       .map((u) => {
         const merged = { ...u, ...u._edited };
         return {
@@ -69,7 +84,11 @@ export default function SimulatorView({
         };
       })
       .sort((a, b) => b.totalScore - a.totalScore);
-  }, [editableData]);
+  
+    return rowsToShow === Infinity
+      ? ranked
+      : ranked.slice(0, rowsToShow);
+  }, [editableData, rowsToShow]);  
 
   return (
     <div className="simulator-view">
@@ -77,12 +96,26 @@ export default function SimulatorView({
         Simulador de Puntaje Institucional Scimago
       </p>
 
-      {/* Selector de años DENTRO del simulador */}
-      <YearRangeSelector
-        value={yearRange}
-        options={yearRanges}
-        onChange={onYearChange}
-      />
+      <div className="simulator-controls">
+        <YearRangeSelector
+          value={yearRange}
+          options={yearRanges}
+          onChange={onYearChange}
+        />
+
+        <RowsSelector
+          value={rowsToShow}
+          onChange={setRowsToShow}
+        />
+        
+        <button
+          className="reset-button"
+          type="button"
+          onClick={handleResetTable}
+        >
+          Reestablecer tabla
+        </button>
+      </div>
 
       <div className="simulator-table-wrapper">
         <table className="simulator-table">
@@ -101,7 +134,11 @@ export default function SimulatorView({
 
           <tbody>
             {rankedUniversities.map((u, index) => (
-              <tr key={u.ID}>
+              <tr
+                key={u.ID}
+                onClick={() => setSelectedRowId((prev) => (prev === u.ID ? null : u.ID))}                
+                className={u.ID === selectedRowId ? "row-selected" : ""}
+              >
                 <td>{index + 1}</td>
                 <td className="sticky-name">{u.Institucion}</td>
 
@@ -115,12 +152,9 @@ export default function SimulatorView({
                         className="metric-input"
                         value={value}
                         onChange={(e) =>
-                          handleMetricChange(
-                            u.ID,
-                            m.key,
-                            e.target.value
-                          )
+                          handleMetricChange(u.ID, m.key, e.target.value)
                         }
+                        onClick={(e) => e.stopPropagation()} 
                       />
                     </td>
                   );

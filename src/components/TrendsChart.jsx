@@ -56,7 +56,9 @@ const METRICS = [
     universidades = [],
     selectedUniversities = [],
     metric,
+    height = 600,
   }) {
+  
   
 
   if (!Array.isArray(universidades) || universidades.length === 0) {
@@ -102,7 +104,7 @@ const METRICS = [
             Seleccione universidades para visualizar la tendencia
           </p>
         ) : (
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={height}>
             <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="period" />

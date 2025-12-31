@@ -1,0 +1,79 @@
+.university-dropdown {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  
+  .dropdown-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+  
+  .dropdown-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  
+  .dropdown-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    z-index: 10;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    width: 100%;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-top: 4px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .dropdown-item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background: var(--surface-muted);
+  }
+  
+  .selected-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+  }
+  
+  .selected-chip {
+    background: var(--accent);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  
+  .selected-chip:hover {
+    opacity: 0.85;
+  }
+  
+  .chip-remove {
+    font-weight: bold;
+    line-height: 1;
+  }
+  

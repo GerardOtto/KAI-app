@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import UniversitySelector from "../components/UniversitySelector";
+import UniversityDropdownSelector from "../components/UniversityDropdownSelector";
 import TrendsChart from "../components/TrendsChart";
 import { metricDescriptions } from "../constants/metricDescriptions";
 import "../styles/trends.css";
@@ -7,6 +7,8 @@ import "../styles/trends.css";
 export default function TrendViews({ universidades }) {
   const [selectedUniversities, setSelectedUniversities] = useState([]);
   const [metric, setMetric] = useState("output");
+  const [chartHeight, setChartHeight] = useState(600);
+
 
   const clearSelection = () => {
     setSelectedUniversities([]);
@@ -84,12 +86,19 @@ export default function TrendViews({ universidades }) {
             Instituciones disponibles
           </p>
 
-          <UniversitySelector
+          <UniversityDropdownSelector
             universidades={universidadesUnicas}
             selected={selectedUniversities}
-            onChange={handleUniversityChange}
-            onClear={clearSelection}
+            onSelect={(id) =>
+              setSelectedUniversities((prev) => [...prev, id])
+            }
+            onRemove={(id) =>
+              setSelectedUniversities((prev) =>
+                prev.filter((x) => x !== id)
+              )
+            }
           />
+
 
           {/* 🔹 Selector de métrica */}
           <div className="metric-selector">
@@ -112,13 +121,37 @@ export default function TrendViews({ universidades }) {
           </div>
         </div>
 
+        <div className="chart-height-selector">
+          <label>
+            Altura del gráfico
+            <span className="height-value">{chartHeight}px</span>
+          </label>
+
+          <input
+            type="range"
+            min="300"
+            max="900"
+            step="50"
+            value={chartHeight}
+            onChange={(e) => setChartHeight(Number(e.target.value))}
+            style={{
+              "--value": chartHeight,
+              "--min": 300,
+              "--max": 900,
+            }}
+          />
+        </div>
+
+
+
         {/* 🔹 Panel principal */}
         <section className="trends-main">
-          <TrendsChart
-            universidades={universidades}
-            selectedUniversities={selectedUniversities}
-            metric={metric}
-          />
+        <TrendsChart
+          universidades={universidades}
+          selectedUniversities={selectedUniversities}
+          metric={metric}
+          height={chartHeight}
+        />
         </section>
       </div>
     </div>
