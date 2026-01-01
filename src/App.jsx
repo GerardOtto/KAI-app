@@ -6,6 +6,7 @@ import ComparisonTable from "./components/ComparisonTable";
 import SimulatorView from "./views/SimulatorView";
 import YearRangeSelector from "./components/YearRangeSelector";
 import TrendsView from "./views/TrendViews";
+import AcademicsView from "./views/AcademicsView"; // <--- 1. Importar la nueva vista
 
 import "./styles/tooltip.css";
 
@@ -23,34 +24,24 @@ function App() {
     "2019-2023",
   ];
   
+  // ... (tu lógica de useMemo y handlers existentes se mantienen igual)
   const filteredUniversidades = useMemo(() => {
-    return universidades.filter(
-      (u) => u.years === yearRange
-    );
+    return universidades.filter((u) => u.years === yearRange);
   }, [universidades, yearRange]);
   
-  const selectedUniversidades = useMemo(
-    () =>
-      filteredUniversidades.filter((u) =>
-        selected.includes(u.ID)
-      ),
+  const selectedUniversidades = useMemo(() => 
+    filteredUniversidades.filter((u) => selected.includes(u.ID)),
     [filteredUniversidades, selected]
   );
   
-
   const handleSelect = (e) => {
     const id = Number(e.target.value);
-
     setSelected((prev) =>
-      e.target.checked
-        ? [...prev, id]
-        : prev.filter((x) => x !== id)
+      e.target.checked ? [...prev, id] : prev.filter((x) => x !== id)
     );
   };
 
-  const clearSelection = () => {
-    setSelected([]);
-  };
+  const clearSelection = () => setSelected([]);
 
   return (
     <>
@@ -67,13 +58,11 @@ function App() {
             <main className="layout">
               <aside className="panel">
                 <h2>Filtros</h2>
-
                 <YearRangeSelector
                   value={yearRange}
                   options={YEAR_RANGES}
                   onChange={setYearRange}
                 />
-
                 <UniversitySelector
                   universidades={filteredUniversidades}
                   selected={selected}
@@ -107,6 +96,12 @@ function App() {
             yearRanges={YEAR_RANGES}
           />
         )}
+
+        {/* --- 2. Agregar la nueva condición para la vista --- */}
+        {activeView === "top-opcion1" && ( 
+           <AcademicsView />
+        )}
+
       </div>
     </>
   );
