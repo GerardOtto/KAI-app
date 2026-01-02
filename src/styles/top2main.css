@@ -1,0 +1,89 @@
+.dataset-explorer {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dataset-filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr auto;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 12px;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .filter-group label {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+    color: #444;
+  }
+  
+  .filter-group input,
+  .filter-group select {
+    height: 38px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .dataset-count {
+    font-size: 0.85rem;
+    color: #555;
+    padding-bottom: 6px;
+  }
+  
+  /* Autocomplete */
+  .autocomplete .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 240px;
+    overflow-y: auto;
+    z-index: 20;
+  }
+  
+  .autocomplete .suggestions li {
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  
+  .autocomplete .suggestions li:hover {
+    background: #f2f2f2;
+  }
+  
+  /* Tabla */
+  .dataset-table-wrapper {
+    max-width: 1200px;
+  }
+  
+  .dataset-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .dataset-table th,
+  .dataset-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .dataset-table th {
+    text-align: left;
+    font-weight: 600;
+    background: #fafafa;
+  }
+  
+  .dataset-table .numeric {
+    text-align: right;
+  }
+  

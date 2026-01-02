@@ -2,8 +2,14 @@ import "../styles/navbar.css";
 import logo from "../assets/Courier PS Greek.png";
 
 export default function Navbar({ activeView, onChange }) {
-  // Función auxiliar para saber si el botón padre "Scimago" debe estar activo
+  // Función auxiliar para Scimago
   const isScimagoActive = ["compare", "simulator", "trends", "vista4", "vista5"].includes(activeView);
+
+  // NUEVA: Función auxiliar para QS
+  const isQSActive = ["qs-opcion1", "qs-opcion2"].includes(activeView);
+
+  // NUEVA: Función auxiliar para Top 2%
+  const isTopActive = ["top-opcion1"].includes(activeView);
 
   return (
     <nav className="navbar">
@@ -13,7 +19,7 @@ export default function Navbar({ activeView, onChange }) {
 
       <ul className="navbar-menu">
         
-        {/* --- Dropdown 1: Scimago (Contiene tus botones antiguos) --- */}
+        {/* --- Dropdown 1: Scimago --- */}
         <li className="dropdown">
           <button className={`nav-btn dropbtn ${isScimagoActive ? "active" : ""}`}>
             Scimago <span className="arrow">▼</span>
@@ -55,24 +61,45 @@ export default function Navbar({ activeView, onChange }) {
 
         {/* --- Dropdown 2: QS --- */}
         <li className="dropdown">
-          <button className="nav-btn dropbtn">
+          {/* Se añade la clase dinámica "active" */}
+          <button className={`nav-btn dropbtn ${isQSActive ? "active" : ""}`}>
             QS <span className="arrow">▼</span>
           </button>
           <div className="dropdown-content">
-            {/* Agrega aquí las opciones de QS cuando las tengas */}
-            <button onClick={() => onChange("qs-opcion1")}>Opción QS 1</button>
-            <button onClick={() => onChange("qs-opcion2")}>Opción QS 2</button>
+            <button 
+              className={activeView === "qs-opcion1" ? "active-item" : ""} 
+              onClick={() => onChange("qs-opcion1")}
+            >
+              Opción QS 1
+            </button>
+            <button 
+              className={activeView === "qs-opcion2" ? "active-item" : ""} 
+              onClick={() => onChange("qs-opcion2")}
+            >
+              Opción QS 2
+            </button>
           </div>
         </li>
 
         {/* --- Dropdown 3: Top 2% --- */}
         <li className="dropdown">
-          <button className="nav-btn dropbtn">
+          {/* Se añade la clase dinámica "active" */}
+          <button className={`nav-btn dropbtn ${isTopActive ? "active" : ""}`}>
             Top 2% <span className="arrow">▼</span>
           </button>
           <div className="dropdown-content">
-            {/* Agrega aquí las opciones de Top 2% cuando las tengas */}
-            <button onClick={() => onChange("top-opcion1")}>Opción Top 1</button>
+            <button 
+              className={activeView === "top-opcion1" ? "active-item" : ""} 
+              onClick={() => onChange("top-opcion1")}
+            >
+              Estadísticas (V1)
+            </button>
+            <button 
+              className={activeView === "top-opcion2" ? "active-item" : ""} 
+              onClick={() => onChange("top-opcion2")}
+            >
+              Estadísticas (V2)
+            </button>
           </div>
         </li>
 

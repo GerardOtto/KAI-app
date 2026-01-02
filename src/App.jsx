@@ -6,7 +6,9 @@ import ComparisonTable from "./components/ComparisonTable";
 import SimulatorView from "./views/SimulatorView";
 import YearRangeSelector from "./components/YearRangeSelector";
 import TrendsView from "./views/TrendViews";
-import AcademicsView from "./views/AcademicsView"; // <--- 1. Importar la nueva vista
+import AcademicsView from "./views/AcademicsView";
+import Top2Main from "./views/Top2Main";
+import { useAcademicsData } from "./hooks/useTop2Data";
 
 import "./styles/tooltip.css";
 
@@ -15,6 +17,8 @@ function App() {
   const [selected, setSelected] = useState([]);
   const [activeView, setActiveView] = useState("compare");
   const [yearRange, setYearRange] = useState("2019-2023");
+  const { data: academicsData, loading } = useAcademicsData();
+  
   const YEAR_RANGES = [
     "2014-2018",
     "2015-2019",
@@ -24,7 +28,7 @@ function App() {
     "2019-2023",
   ];
   
-  // ... (tu lógica de useMemo y handlers existentes se mantienen igual)
+
   const filteredUniversidades = useMemo(() => {
     return universidades.filter((u) => u.years === yearRange);
   }, [universidades, yearRange]);
@@ -97,10 +101,16 @@ function App() {
           />
         )}
 
-        {/* --- 2. Agregar la nueva condición para la vista --- */}
-        {activeView === "top-opcion1" && ( 
-           <AcademicsView />
-        )}
+          {activeView === "top-opcion1" && (
+            <AcademicsView data={universidades} />
+          )}
+
+          {activeView === "top-opcion2" && (
+            <Top2Main
+              data={academicsData}
+              loading={loading}
+            />
+          )}
 
       </div>
     </>
