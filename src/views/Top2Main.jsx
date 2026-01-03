@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import AcademicDetailModal from "../components/AcademicDetailModal";
 import "../styles/top2main.css";
 
 const PAGE_SIZES = [10, 25, 50, 100, "ALL"];
@@ -10,12 +11,12 @@ export default function Top2Main({ data = [] }) {
   const [instQuery, setInstQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  const [selectedAcademic, setSelectedAcademic] = useState(null);
+
   /* Instituciones únicas */
   const institutions = useMemo(() => {
     const set = new Set(
-      data
-        .map((d) => String(d.inst_name ?? "").trim())
-        .filter(Boolean)
+      data.map((d) => String(d.inst_name ?? "").trim()).filter(Boolean)
     );
     return Array.from(set).sort();
   }, [data]);
@@ -62,8 +63,8 @@ export default function Top2Main({ data = [] }) {
       <header className="dataset-header">
         <h1>Ranking de Académicos</h1>
         <p>
-          Académicos ordenados de manera descendente por impacto{" "}
-          (<strong>Composite-index (excluye auto-citas)</strong>)
+          Académicos ordenados de manera descendente por impacto (
+          <strong>Composite-index sin autocitas</strong>)
         </p>
       </header>
 
@@ -140,11 +141,20 @@ export default function Top2Main({ data = [] }) {
             {visibleData.map((row, index) => (
               <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{row.authfull ?? "—"}</td>
+                <td>
+                  <button
+                    className="academic-link"
+                    onClick={() => setSelectedAcademic(row)}
+                  >
+                    {row.authfull ?? "—"}
+                  </button>
+                </td>
                 <td>{row.inst_name ?? "—"}</td>
                 <td>{row.cntry ?? "—"}</td>
                 <td className="numeric">
-                  {Number(row["c (ns)"] ?? 0).toLocaleString()}
+                  {row["c (ns)"] !== undefined && row["c (ns)"] !== null && row["c (ns)"] !== ""
+                    ? String(row["c (ns)"])
+                    : "—"}
                 </td>
               </tr>
             ))}
@@ -157,6 +167,14 @@ export default function Top2Main({ data = [] }) {
           </div>
         )}
       </div>
+
+      {/* Modal */}
+      {selectedAcademic && (
+        <AcademicDetailModal
+          row={selectedAcademic}
+          onClose={() => setSelectedAcademic(null)}
+        />
+      )}
     </div>
   );
 }
