@@ -9,6 +9,10 @@ import TrendsView from "./views/TrendViews";
 import AcademicsView from "./views/AcademicsView";
 import Top2Main from "./views/Top2Main";
 import { useAcademicsData } from "./hooks/useTop2Data";
+import ComparisonSimulatorLike from "./views/ComparisonSimulatorLike";
+import QsLatamView from "./views/QSLatamView";
+import { useQsLatamData } from "./hooks/useQsLatamData";
+
 
 import "./styles/tooltip.css";
 
@@ -18,7 +22,9 @@ function App() {
   const [activeView, setActiveView] = useState("compare");
   const [yearRange, setYearRange] = useState("2019-2023");
   const { data: academicsData, loading } = useAcademicsData();
-  
+  const { data: qsData, loading: qsLoading } = useQsLatamData();
+
+
   const YEAR_RANGES = [
     "2014-2018",
     "2015-2019",
@@ -52,35 +58,15 @@ function App() {
       <Navbar activeView={activeView} onChange={setActiveView} />
 
       <div className="app with-navbar">
-        {activeView === "compare" && (
-          <>
-            <header className="header">
-              <h1>Comparador de Universidades Chilenas Scimago</h1>
-              <p>Análisis comparativo de desempeño institucional</p>
-            </header>
+      {activeView === "compare" && (
+  <ComparisonSimulatorLike
+    universidades={universidades}
+    yearRange={yearRange}
+    onYearChange={setYearRange}
+    yearRanges={YEAR_RANGES}
+  />
+)}
 
-            <main className="layout">
-              <aside className="panel">
-                <h2>Filtros</h2>
-                <YearRangeSelector
-                  value={yearRange}
-                  options={YEAR_RANGES}
-                  onChange={setYearRange}
-                />
-                <UniversitySelector
-                  universidades={filteredUniversidades}
-                  selected={selected}
-                  onChange={handleSelect}
-                  onClear={clearSelection}
-                />
-              </aside>
-
-              <section className="content">
-                <ComparisonTable universidades={selectedUniversidades} />
-              </section>
-            </main>
-          </>
-        )}
 
         {activeView === "simulator" && (
           <SimulatorView
@@ -101,16 +87,20 @@ function App() {
           />
         )}
 
-          {activeView === "top-opcion1" && (
-            <AcademicsView data={universidades} />
-          )}
+        {activeView === "qs-latam" && (
+          <QsLatamView data={qsData} loading={qsLoading} />
+        )}
 
-          {activeView === "top-opcion2" && (
-            <Top2Main
-              data={academicsData}
-              loading={loading}
-            />
-          )}
+        {activeView === "top-opcion1" && (
+          <AcademicsView data={universidades} />
+        )}
+
+        {activeView === "top-opcion2" && (
+          <Top2Main
+            data={academicsData}
+            loading={loading}
+          />
+        )}
 
       </div>
     </>

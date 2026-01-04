@@ -67,10 +67,10 @@ export default function Navbar({ activeView, onChange }) {
           </button>
           <div className="dropdown-content">
             <button 
-              className={activeView === "qs-opcion1" ? "active-item" : ""} 
-              onClick={() => onChange("qs-opcion1")}
+              className={activeView === "qs-latam" ? "active-item" : ""} 
+              onClick={() => onChange("qs-latam")}
             >
-              Opción QS 1
+              Datos Chile
             </button>
             <button 
               className={activeView === "qs-opcion2" ? "active-item" : ""} 

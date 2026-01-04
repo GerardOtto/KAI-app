@@ -1,6 +1,7 @@
-import { useState, useMemo, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { calculateTotalScore } from "../utils/calculateScore";
 import { formatNumber } from "../utils/formatNumber";
+import UniversityDropdownSelector from "../components/UniversityDropdownSelector";
 import YearRangeSelector from "../components/YearRangeSelector";
 import RowsSelector from "../components/RowsSelector";
 import "../styles/simulator.css";
@@ -26,103 +27,123 @@ const METRICS = [
   { key: "overton", label: "Políticas Públicas" },
 ];
 
-export default function SimulatorView({
-  data,
+export default function ComparisonSimulatorLike({
+  universidades,
   yearRange,
   onYearChange,
   yearRanges,
 }) {
-
-  const [selectedRowId, setSelectedRowId] = useState(null);
-  const [editableData, setEditableData] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
   const [rowsToShow, setRowsToShow] = useState(10);
 
+  /** 🔹 Filtrado por rango */
+  const filteredUniversidades = useMemo(
+    () => universidades.filter((u) => u.years === yearRange),
+    [universidades, yearRange]
+  );
 
-  // Inicializa copia editable cuando cambia el dataset (año incluido)
-  useEffect(() => {
-    setEditableData(
-      data.map((u) => ({
+  /** 🔹 Universidades únicas para dropdown */
+  const universidadesUnicas = useMemo(() => {
+    const map = new Map();
+    filteredUniversidades.forEach((u) => {
+      if (!map.has(u.ID)) map.set(u.ID, u);
+    });
+    return Array.from(map.values());
+  }, [filteredUniversidades]);
+
+  /** 🔹 Universidades seleccionadas */
+  const selectedUniversidades = useMemo(() => {
+    return filteredUniversidades.filter((u) =>
+      selectedIds.includes(u.ID)
+    );
+  }, [filteredUniversidades, selectedIds]);
+
+  /** 🔹 Ranking */
+  const rankedUniversidades = useMemo(() => {
+    const ranked = selectedUniversidades
+      .map((u) => ({
         ...u,
-        _edited: {},
+        totalScore: calculateTotalScore(u),
       }))
-    );
-  }, [data]);
-
-  const handleMetricChange = (id, metric, value) => {
-    setEditableData((prev) =>
-      prev.map((u) =>
-        u.ID === id
-          ? {
-              ...u,
-              _edited: {
-                ...u._edited,
-                [metric]: value === "" ? "" : Number(value),
-              },
-            }
-          : u
-      )
-    );
-  };
-  
-  const handleResetTable = () => {
-    setEditableData(
-      data.map((u) => ({
-        ...u,
-        _edited: {},
-      }))
-    );
-  };
-  
-
-  const rankedUniversities = useMemo(() => {
-    const ranked = editableData
-      .map((u) => {
-        const merged = { ...u, ...u._edited };
-        return {
-          ...u,
-          totalScore: calculateTotalScore(merged),
-        };
-      })
       .sort((a, b) => b.totalScore - a.totalScore);
-  
+
     return rowsToShow === Infinity
       ? ranked
       : ranked.slice(0, rowsToShow);
-  }, [editableData, rowsToShow]);  
+  }, [selectedUniversidades, rowsToShow]);
+
+  const handleSelectAll = () => {
+    setSelectedIds(universidadesUnicas.map((u) => u.ID));
+  };
+
+  const handleClearSelection = () => {
+    setSelectedIds([]);
+  };
 
   return (
     <div className="simulator-view">
+        <div className="page-container">
       <p className="simulator-title">
-        Simulador de Puntaje Institucional Scimago
+        Comparador Institucional Scimago
       </p>
 
+      {/* 🔹 CONTROLES */}
       <div className="simulator-controls">
         <YearRangeSelector
-          value={yearRange}
-          options={yearRanges}
-          onChange={onYearChange}
+            value={yearRange}
+            options={yearRanges}
+            onChange={onYearChange}
         />
 
         <RowsSelector
-          value={rowsToShow}
-          onChange={setRowsToShow}
+            value={rowsToShow}
+            onChange={setRowsToShow}
         />
-        
-        <button
-          className="reset-button"
-          type="button"
-          onClick={handleResetTable}
-        >
-          Reestablecer tabla
-        </button>
-      </div>
 
+        <button
+            type="button"
+            className="secondary-button"
+            onClick={handleSelectAll}
+        >
+            Mostrar todas
+        </button>
+
+        <button
+            type="button"
+            className="secondary-button danger"
+            onClick={handleClearSelection}
+        >
+            Limpiar selección
+        </button>
+        </div>
+
+
+      {/* 🔹 SELECTOR DE UNIVERSIDADES */}
+      <div className="comparison-table-container">
+  <div className="university-selector-full">
+    <UniversityDropdownSelector
+      universidades={universidadesUnicas}
+      selected={selectedIds}
+      onSelect={(id) =>
+        setSelectedIds((prev) =>
+          prev.includes(id) ? prev : [...prev, id]
+        )
+      }
+      onRemove={(id) =>
+        setSelectedIds((prev) =>
+          prev.filter((x) => x !== id)
+        )
+      }
+    />
+  </div>
+
+      {/* 🔹 TABLA */}
       <div className="simulator-table-wrapper">
         <table className="simulator-table">
           <thead>
             <tr>
               <th>#</th>
-              <th>Universidad</th>
+              <th className="sticky-name">Universidad</th>
 
               {METRICS.map((m) => (
                 <th key={m.key}>{m.label}</th>
@@ -133,26 +154,15 @@ export default function SimulatorView({
           </thead>
 
           <tbody>
-            {rankedUniversities.map((u, index) => (
-              <tr
-                key={u.ID}
-                onClick={() => setSelectedRowId((prev) => (prev === u.ID ? null : u.ID))}                
-                className={u.ID === selectedRowId ? "row-selected" : ""}
-              >
+            {rankedUniversidades.map((u, index) => (
+              <tr key={u.ID}>
                 <td>{index + 1}</td>
                 <td className="sticky-name">{u.Institucion}</td>
 
                 {METRICS.map((m) => {
-  const currentValue =
-    u._edited[m.key] ?? u[m.key];
-
-  const prevRow =
-    index > 0 ? rankedUniversities[index - 1] : null;
-
+  const currentValue = u[m.key];
   const prevValue =
-    prevRow
-      ? prevRow._edited[m.key] ?? prevRow[m.key]
-      : null;
+    index > 0 ? rankedUniversidades[index - 1][m.key] : null;
 
   const diff =
     typeof currentValue === "number" &&
@@ -163,16 +173,7 @@ export default function SimulatorView({
   return (
     <td key={m.key}>
       <div className="cell-value">
-        <input
-          type="number"
-          step="any"
-          className="metric-input"
-          value={currentValue ?? ""}
-          onChange={(e) =>
-            handleMetricChange(u.ID, m.key, e.target.value)
-          }
-          onClick={(e) => e.stopPropagation()}
-        />
+        {formatNumber(currentValue)}
 
         {diff !== null && diff !== 0 && (
           <div
@@ -189,15 +190,24 @@ export default function SimulatorView({
   );
 })}
 
-
                 <td className="score-cell sticky-score">
                   {formatNumber(u.totalScore)}
                 </td>
               </tr>
             ))}
+
+            {rankedUniversidades.length === 0 && (
+              <tr>
+                <td colSpan={METRICS.length + 3}>
+                  Selecciona universidades para comparar.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
+ </div>
   );
 }

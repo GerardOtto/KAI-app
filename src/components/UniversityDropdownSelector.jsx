@@ -2,8 +2,8 @@ import { useState, useMemo, useRef } from "react";
 import "../styles/UniversityDropdownSelector.css";
 
 export default function UniversityDropdownSelector({
-  universidades,
-  selected,
+  universidades = [],
+  selected = [],
   onSelect,
   onRemove,
 }) {
@@ -11,16 +11,43 @@ export default function UniversityDropdownSelector({
   const [open, setOpen] = useState(false);
   const containerRef = useRef(null);
 
+  /**
+   * 🔹 Helpers compatibles Scimago / QS Latam
+   */
+  const getId = (u) =>
+    u?.ID ??
+    u?.ranking ??
+    null;
+
+  const getLabel = (u) =>
+    String(
+      u?.Institucion ??
+      u?.title ??
+      ""
+    ).trim();
+
+  /**
+   * 🔹 Filtro
+   */
   const filtered = useMemo(() => {
     const q = query.toLowerCase();
 
     return universidades
-      .filter(
-        (u) =>
-          !selected.includes(u.ID) &&
-          u.Institucion.toLowerCase().includes(q)
-      )
-      .sort((a, b) => a.Institucion.localeCompare(b.Institucion));
+      .filter((u) => {
+        const id = getId(u);
+        const label = getLabel(u);
+
+        if (id === null || label === "") return false;
+        if (selected.includes(id)) return false;
+
+        // Input vacío → mostrar todas
+        if (!q) return true;
+
+        return label.toLowerCase().includes(q);
+      })
+      .sort((a, b) =>
+        getLabel(a).localeCompare(getLabel(b))
+      );
   }, [universidades, selected, query]);
 
   return (
@@ -43,19 +70,24 @@ export default function UniversityDropdownSelector({
       {/* ⬇️ Dropdown */}
       {open && filtered.length > 0 && (
         <div className="dropdown-menu">
-          {filtered.map((u) => (
-            <div
-              key={u.ID}
-              className="dropdown-item"
-              onClick={() => {
-                onSelect(u.ID);
-                setQuery("");
-                setOpen(false);
-              }}
-            >
-              {u.Institucion}
-            </div>
-          ))}
+          {filtered.map((u) => {
+            const id = getId(u);
+            const label = getLabel(u);
+
+            return (
+              <div
+                key={id}
+                className="dropdown-item"
+                onClick={() => {
+                  onSelect(id);
+                  setQuery("");
+                  setOpen(false);
+                }}
+              >
+                {label}
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -63,7 +95,10 @@ export default function UniversityDropdownSelector({
       {selected.length > 0 && (
         <div className="selected-list">
           {selected.map((id) => {
-            const uni = universidades.find((u) => u.ID === id);
+            const uni = universidades.find(
+              (u) => getId(u) === id
+            );
+
             return (
               <span
                 key={id}
@@ -71,7 +106,7 @@ export default function UniversityDropdownSelector({
                 onClick={() => onRemove(id)}
                 title="Quitar"
               >
-                {uni?.Institucion}
+                {getLabel(uni)}
                 <span className="chip-remove">×</span>
               </span>
             );
