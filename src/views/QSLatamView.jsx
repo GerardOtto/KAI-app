@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import UniversityDropdownSelector from "../components/UniversityDropdownSelector";
 import RowsSelector from "../components/RowsSelector";
+import { metricDescriptions } from "../constants/metricDescriptionsQS";
+import MetricInfoPanel from "../components/MetricInfoPanel";
 import "../styles/simulator.css";
 
 const QS_METRICS = [
@@ -47,116 +49,138 @@ export default function QsLatamView({ data = [], loading }) {
   return (
     <div className="simulator-view">
       <div className="page-container">
-        <h1 className="simulator-title">Comparador de QS Latam – Chile</h1>
-
-        <div className="simulator-controls">
-            <RowsSelector value={rowsToShow} onChange={setRowsToShow} />
-
-            <button
-                type="button"
+  
+        {/* 🔹 HEADER (MISMA DISPOSICIÓN QUE SCIMAGO) */}
+        <div className="simulator-header">
+          <div>
+            <h1 className="simulator-title">
+              Comparador QS Latam – Chile
+            </h1>
+  
+            <div className="simulator-controls">
+              <RowsSelector
+                value={rowsToShow}
+                onChange={setRowsToShow}
+              />
+  
+              <button
                 className="secondary-button"
                 onClick={handleSelectAll}
-            >
+              >
                 Mostrar todas
-            </button>
-
-            <button
-                type="button"
+              </button>
+  
+              <button
                 className="secondary-button danger"
                 onClick={handleClearSelection}
-            >
+              >
                 Limpiar selección
-            </button>
+              </button>
             </div>
-
-
-        <div className="university-selector-full">
-          <UniversityDropdownSelector
-            universidades={data}
-            selected={selectedIds}
-            onSelect={(id) =>
-              setSelectedIds((prev) =>
-                prev.includes(id) ? prev : [...prev, id]
-              )
-            }
-            onRemove={(id) =>
-              setSelectedIds((prev) =>
-                prev.filter((x) => x !== id)
-              )
-            }
-          />
+          </div>
+  
+          {/* 🔹 PANEL MÉTRICAS */}
+          <div style={{ width: "700px" }}>
+            <MetricInfoPanel
+              metrics={QS_METRICS}
+              descriptions={metricDescriptions}
+              title="Descripción de métricas"
+            />
+          </div>
         </div>
-
-        <div className="simulator-table-wrapper">
-          <table className="simulator-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th className="sticky-name">Universidad</th>
-
-                {QS_METRICS.map((m) => (
-                  <th key={m.key}>{m.label}</th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {ranked.map((u, index) => {
-                const prev = index > 0 ? ranked[index - 1] : null;
-
-                return (
-                  <tr key={u.ID}>
-                    <td>{index + 1}</td>
-                    <td className="sticky-name">{u.title}</td>
-
-                    {QS_METRICS.map((m) => {
-                      const current = u[m.key];
-                      const previous = prev?.[m.key];
-
-                      const isNumber =
-                        typeof current === "number" &&
-                        typeof previous === "number";
-
-                      const diff = isNumber ? current - previous : null;
-
-                      return (
-                        <td key={m.key}>
-                          <div className="cell-value">
-                            {current === "" || current == null
-                              ? "—"
-                              : current}
-
-                            {diff !== null && diff !== 0 && (
-                              <div
-                                className={`diff ${
-                                  diff > 0
-                                    ? "diff-positive"
-                                    : "diff-negative"
-                                }`}
-                              >
-                                {diff > 0 ? "+" : ""}
-                                {diff.toFixed(2)}
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-
-              {ranked.length === 0 && (
+  
+        {/* 🔹 SELECTOR UNIVERSIDADES */}
+        <div className="comparison-table-container">
+          <div className="university-selector-full">
+            <UniversityDropdownSelector
+              universidades={data}
+              selected={selectedIds}
+              onSelect={(id) =>
+                setSelectedIds((prev) =>
+                  prev.includes(id) ? prev : [...prev, id]
+                )
+              }
+              onRemove={(id) =>
+                setSelectedIds((prev) =>
+                  prev.filter((x) => x !== id)
+                )
+              }
+            />
+          </div>
+  
+          {/* 🔹 TABLA */}
+          <div className="simulator-table-wrapper">
+            <table className="simulator-table">
+              <thead>
                 <tr>
-                  <td colSpan={QS_METRICS.length + 2}>
-                    Selecciona universidades para comparar
-                  </td>
+                  <th>#</th>
+                  <th className="sticky-name">Universidad</th>
+  
+                  {QS_METRICS.map((m) => (
+                    <th key={m.key}>{m.label}</th>
+                  ))}
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+  
+              <tbody>
+                {ranked.map((u, index) => {
+                  const prev = index > 0 ? ranked[index - 1] : null;
+  
+                  return (
+                    <tr key={u.ID}>
+                      <td>{index + 1}</td>
+                      <td className="sticky-name">{u.title}</td>
+  
+                      {QS_METRICS.map((m) => {
+                        const current = u[m.key];
+                        const previous = prev?.[m.key];
+  
+                        const diff =
+                          typeof current === "number" &&
+                          typeof previous === "number"
+                            ? current - previous
+                            : null;
+  
+                        return (
+                          <td key={m.key}>
+                            <div className="cell-value">
+                              {current == null || current === ""
+                                ? "—"
+                                : current}
+  
+                              {diff !== null && diff !== 0 && (
+                                <div
+                                  className={`diff ${
+                                    diff > 0
+                                      ? "diff-positive"
+                                      : "diff-negative"
+                                  }`}
+                                >
+                                  {diff > 0 ? "+" : ""}
+                                  {diff.toFixed(2)}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                })}
+  
+                {ranked.length === 0 && (
+                  <tr>
+                    <td colSpan={QS_METRICS.length + 2}>
+                      Selecciona universidades para comparar
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
+  
       </div>
     </div>
-  );
+  );  
 }
