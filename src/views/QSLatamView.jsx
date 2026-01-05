@@ -47,7 +47,7 @@ export default function QsLatamView({ data = [], loading }) {
   return (
     <div className="simulator-view">
       <div className="page-container">
-        <p className="simulator-title">Comparador de QS Latam – Chile</p>
+        <h1 className="simulator-title">Comparador de QS Latam – Chile</h1>
 
         <div className="simulator-controls">
             <RowsSelector value={rowsToShow} onChange={setRowsToShow} />

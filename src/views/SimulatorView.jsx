@@ -92,9 +92,10 @@ export default function SimulatorView({
 
   return (
     <div className="simulator-view">
-      <p className="simulator-title">
+      <div className="page-container">
+      <h1 className="simulator-title">
         Simulador de Puntaje Institucional Scimago
-      </p>
+      </h1>
 
       <div className="simulator-controls">
         <YearRangeSelector
@@ -197,6 +198,7 @@ export default function SimulatorView({
             ))}
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   );

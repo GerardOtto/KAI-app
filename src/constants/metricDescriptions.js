@@ -1,13 +1,13 @@
 export const metricDescriptions = {
     normalized_impact: `
-  El Impacto Normalizado se calcula sobre la producción de liderazgo de la institución
+  El Impacto Normalizado se calcula sobre la relación entre el impacto científico promedio de una institución y el promedio mundial
   utilizando la metodología del Karolinska Institutet (Item oriented field normalized citation
   score average). Un valor de 1 representa el promedio mundial. Indicador independiente del tamaño.
   `,
   
     excel_lider: `
   Cantidad de documentos en Excelencia en los que la institución es el principal contribuyente.
-  Indicador dependiente del tamaño.
+  Indicador dependiente del tamaño. (Excelencia: Paper dentro del 10% más citados en su respectiva disciplina a nivel mundial)
   `,
   
     output: `

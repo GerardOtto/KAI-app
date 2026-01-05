@@ -4,6 +4,8 @@ import { formatNumber } from "../utils/formatNumber";
 import UniversityDropdownSelector from "../components/UniversityDropdownSelector";
 import YearRangeSelector from "../components/YearRangeSelector";
 import RowsSelector from "../components/RowsSelector";
+import MetricInfoPanel from "../components/MetricInfoPanel";
+import { metricDescriptions } from "../constants/metricDescriptions";
 import "../styles/simulator.css";
 
 const METRICS = [
@@ -83,39 +85,51 @@ export default function ComparisonSimulatorLike({
   return (
     <div className="simulator-view">
         <div className="page-container">
-      <p className="simulator-title">
-        Comparador Institucional Scimago
-      </p>
+        <div className="simulator-header">
+  <div>
+    <h1 className="simulator-title">
+      Comparador Institucional Scimago
+    </h1>
 
-      {/* 🔹 CONTROLES */}
-      <div className="simulator-controls">
-        <YearRangeSelector
-            value={yearRange}
-            options={yearRanges}
-            onChange={onYearChange}
-        />
+    <div className="simulator-controls">
+      <YearRangeSelector
+        value={yearRange}
+        options={yearRanges}
+        onChange={onYearChange}
+      />
 
-        <RowsSelector
-            value={rowsToShow}
-            onChange={setRowsToShow}
-        />
+      <RowsSelector
+        value={rowsToShow}
+        onChange={setRowsToShow}
+      />
 
-        <button
-            type="button"
-            className="secondary-button"
-            onClick={handleSelectAll}
-        >
-            Mostrar todas
-        </button>
+      <button
+        className="secondary-button"
+        onClick={handleSelectAll}
+      >
+        Mostrar todas
+      </button>
 
-        <button
-            type="button"
-            className="secondary-button danger"
-            onClick={handleClearSelection}
-        >
-            Limpiar selección
-        </button>
-        </div>
+      <button
+        className="secondary-button danger"
+        onClick={handleClearSelection}
+      >
+        Limpiar selección
+      </button>
+    </div>
+  </div>
+
+<div style={{width:"700px"}}>
+  {/* 🔹 NUEVO PANEL */}
+  <MetricInfoPanel
+    metrics={METRICS}
+    descriptions={metricDescriptions}
+    title="Descripción de métricas"
+  />
+</div>
+  
+</div>
+
 
 
       {/* 🔹 SELECTOR DE UNIVERSIDADES */}

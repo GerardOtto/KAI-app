@@ -50,12 +50,6 @@ export default function Navbar({ activeView, onChange }) {
             >
               Planificador
             </button>
-            <button 
-              className={activeView === "vista5" ? "active-item" : ""} 
-              onClick={() => onChange("vista5")}
-            >
-              Vista 5
-            </button>
           </div>
         </li>
 
@@ -70,13 +64,13 @@ export default function Navbar({ activeView, onChange }) {
               className={activeView === "qs-latam" ? "active-item" : ""} 
               onClick={() => onChange("qs-latam")}
             >
-              Datos Chile
+              Datos Chile 
             </button>
             <button 
               className={activeView === "qs-opcion2" ? "active-item" : ""} 
               onClick={() => onChange("qs-opcion2")}
             >
-              Opción QS 2
+              Datos Global
             </button>
           </div>
         </li>

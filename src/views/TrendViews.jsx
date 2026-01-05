@@ -70,11 +70,10 @@ export default function TrendViews({ universidades }) {
 
   return (
     <div className="trends-view">
-      <h1>Comparador de Tendencias</h1>
-
       <div className="trends-layout">
         {/* 🔹 Panel lateral */}
         <div className="panel">
+        <h1>Comparador de Tendencias</h1>
           <p
             style={{
               textTransform: "uppercase",

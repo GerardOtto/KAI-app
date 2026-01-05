@@ -12,8 +12,6 @@ import { useAcademicsData } from "./hooks/useTop2Data";
 import ComparisonSimulatorLike from "./views/ComparisonSimulatorLike";
 import QsLatamView from "./views/QSLatamView";
 import { useQsLatamData } from "./hooks/useQsLatamData";
-
-
 import "./styles/tooltip.css";
 
 function App() {
