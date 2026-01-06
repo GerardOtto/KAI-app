@@ -11,6 +11,7 @@ import Top2Main from "./views/Top2Main";
 import { useAcademicsData } from "./hooks/useTop2Data";
 import ComparisonSimulatorLike from "./views/ComparisonSimulatorLike";
 import QsLatamView from "./views/QSLatamView";
+import QsLatamSimfrom from "./views/QSLatamSimulatorView";
 import { useQsLatamData } from "./hooks/useQsLatamData";
 import "./styles/tooltip.css";
 
@@ -87,6 +88,10 @@ function App() {
 
         {activeView === "qs-latam" && (
           <QsLatamView data={qsData} loading={qsLoading} />
+        )}
+
+        {activeView === "qs-latam2" && (
+          <QsLatamSimfrom data={qsData} loading={qsLoading} />
         )}
 
         {activeView === "top-opcion1" && (

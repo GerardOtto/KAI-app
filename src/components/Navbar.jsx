@@ -42,7 +42,7 @@ export default function Navbar({ activeView, onChange }) {
               className={activeView === "trends" ? "active-item" : ""} 
               onClick={() => onChange("trends")}
             >
-              Graficador
+              Tendencias
             </button>
             <button 
               className={activeView === "vista4" ? "active-item" : ""} 
@@ -64,13 +64,13 @@ export default function Navbar({ activeView, onChange }) {
               className={activeView === "qs-latam" ? "active-item" : ""} 
               onClick={() => onChange("qs-latam")}
             >
-              Datos Chile 
+              Comparador
             </button>
             <button 
-              className={activeView === "qs-opcion2" ? "active-item" : ""} 
-              onClick={() => onChange("qs-opcion2")}
+              className={activeView === "qs-latam2" ? "active-item" : ""} 
+              onClick={() => onChange("qs-latam2")}
             >
-              Datos Global
+              Simulador
             </button>
           </div>
         </li>
