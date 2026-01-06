@@ -43,6 +43,9 @@ export const metricDescriptions = {
     Calculado sobre la base de equivalencia de tiempo completo: Full-time + (Part-time/3).
     `,
 
-    student_mix_domestic:``,
-    student_mix_international:``,
-  };
+    student_mix_domestic:
+    "Mide la proporción y diversidad de estudiantes nacionales matriculados en la institución. Refleja el alcance y atractivo de la universidad a nivel nacional. Corresponde a un puntaje normalizado utilizado por QS dentro del indicador Student Mix.",
+
+  student_mix_international:
+    "Evalúa la proporción de estudiantes internacionales matriculados en la institución. Refleja el grado de internacionalización del entorno estudiantil y la capacidad de atraer talento extranjero. Corresponde a un puntaje normalizado utilizado por QS dentro del indicador Student Mix.",
+};

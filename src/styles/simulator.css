@@ -210,3 +210,10 @@
     gap: 24px;
   }
   
+  .original-value {
+    font-size: 0.75rem;
+    color: #d6a300;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+  
